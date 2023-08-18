@@ -20,12 +20,6 @@ export function AnalyticsCard(props) {
                     <div>{postCount}</div>
                 </div>
             </div>
-            // <div className='inline'>
-            //     <div className='flex justify-between'>
-            //         <div>Days:</div>
-            //         <div>{diffDays}</div>
-            //     </div>
-            // </div>
             <div className='hidden busuanzi_container_page_pv'>
                 <div className='flex justify-between'>
                     <div>Traffic:</div>
