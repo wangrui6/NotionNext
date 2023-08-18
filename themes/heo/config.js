@@ -10,10 +10,10 @@ const CONFIG = {
   ],
 
   // 英雄区(首页顶部大卡)
-  HERO_TITLE_1: 'Superintelligence',
+  HERO_TITLE_1: 'AIGC LLM',
   HERO_TITLE_2: 'Innovation',
-  HERO_TITLE_3: 'AIGC/LLM',
-  HERO_TITLE_4: 'Technology Leadership',
+  HERO_TITLE_3: 'Superintelligence',
+  HERO_TITLE_4: 'Startup',
   HERO_TITLE_5: 'Entrepreneurship',
   HERO_TITLE_LINK: 'https://raygorous.com/tag/startup',
 
@@ -28,13 +28,13 @@ const CONFIG = {
 
   // 右侧个人资料卡牌欢迎语，点击可自动切换
   INFOCARD_GREETINGS: [
-    '你好！我是',
-    '🔍 分享与热心帮助',
-    '🤝 专修交互与设计',
-    '🏃 脚踏实地行动派',
-    '🏠 智能家居小能手',
-    '🤖️ 数码科技爱好者',
-    '🧱 团队小组发动机'
+    'Hello！I am a',
+    '🔍 Researcher',
+    '🤝 Coder',
+    '🏃 Runner',
+    '🏠 Builder',
+    '🤖️ Techer',
+    '🧱 Machine'
   ],
   INFO_CARD_URL: 'https://github.com/raygorous/NotionNext', // 个人资料底部按钮链接
 
