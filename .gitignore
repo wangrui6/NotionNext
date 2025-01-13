@@ -50,3 +50,6 @@ yarn-error.log*
 # yarn
 package-lock.json
 # yarn.lock
+
+# post-commit.sh
+post-commit.sh
