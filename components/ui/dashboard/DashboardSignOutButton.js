@@ -5,7 +5,7 @@ import { SignOutButton } from '@clerk/nextjs'
  */
 export default function DashboardSignOutButton() {
   const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-  if (!enableClerk) {
+  if (!enableClerk || typeof window === 'undefined') {
     return null
   }
   return (
