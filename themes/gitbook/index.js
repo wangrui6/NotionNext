@@ -13,7 +13,7 @@ import { siteConfig } from '@/lib/config'
 import { useGlobal } from '@/lib/global'
 import { isBrowser } from '@/lib/utils'
 import { getShortId } from '@/lib/utils/pageId'
-import { SignIn, SignUp } from '@clerk/nextjs'
+import { SignIn, SignUp } from '@clerk/clerk-react'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import Link from 'next/link'
@@ -622,4 +622,3 @@ export {
     LayoutTagIndex,
     CONFIG as THEME_CONFIG
 }
-

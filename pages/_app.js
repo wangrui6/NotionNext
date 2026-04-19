@@ -9,16 +9,16 @@ import 'react-notion-x/src/styles.css' // 原版的react-notion-x
 import useAdjustStyle from '@/hooks/useAdjustStyle'
 import { GlobalContextProvider } from '@/lib/global'
 import { getBaseLayoutByTheme } from '@/themes/theme'
+import { zhCN } from '@clerk/localizations'
+import { ClerkProvider } from '@clerk/clerk-react'
 import { useRouter } from 'next/router'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useMemo } from 'react'
 import { getQueryParam } from '../lib/utils'
 
 // 各种扩展插件 这个要阻塞引入
 import BLOG from '@/blog.config'
 import ExternalPlugins from '@/components/ExternalPlugins'
 import SEO from '@/components/SEO'
-import { ClerkProvider } from '@clerk/nextjs'
-import { zhCN } from '@clerk/localizations'
 
 /**
  * App挂载DOM 入口文件
@@ -28,7 +28,6 @@ import { zhCN } from '@clerk/localizations'
 const MyApp = ({ Component, pageProps }) => {
   // 一些可能出现 bug 的样式，可以统一放入该钩子进行调整
   useAdjustStyle()
-  const [clerkMounted, setClerkMounted] = useState(false)
 
   const route = useRouter()
   const theme = useMemo(() => {
@@ -48,11 +47,8 @@ const MyApp = ({ Component, pageProps }) => {
     [theme]
   )
 
-  const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
-
-  useEffect(() => {
-    setClerkMounted(true)
-  }, [])
+  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+  const enableClerk = Boolean(clerkPublishableKey)
 
   const content = (
     <GlobalContextProvider {...pageProps}>
@@ -65,8 +61,12 @@ const MyApp = ({ Component, pageProps }) => {
   )
   return (
     <>
-      {enableClerk && clerkMounted ? (
-        <ClerkProvider localization={zhCN}>{content}</ClerkProvider>
+      {enableClerk ? (
+        <ClerkProvider
+          localization={zhCN}
+          publishableKey={clerkPublishableKey}>
+          {content}
+        </ClerkProvider>
       ) : (
         content
       )}

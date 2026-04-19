@@ -1,4 +1,4 @@
-import { UserProfile } from '@clerk/nextjs'
+import { UserProfile } from '@clerk/clerk-react'
 /**
  * 控制台用户账号面板
  * @returns
