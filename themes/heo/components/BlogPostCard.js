@@ -24,6 +24,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
     true,
     CONFIG
   )
+  const postHref = post?.href
 
   return (
     <article
@@ -36,20 +37,35 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
         }>
         {/* 图片封面 */}
         {showPageCover && (
-          <Link href={post?.href} passHref legacyBehavior>
+          postHref ? (
+            <Link href={postHref} passHref legacyBehavior>
+              <div
+                className={
+                  (POST_TWO_COLS ? ' 2xl:w-full' : '') +
+                  ' w-full md:w-5/12 overflow-hidden cursor-pointer select-none'
+                }>
+                <LazyImage
+                  priority={index === 0}
+                  src={pageCoverThumbnail}
+                  alt={post?.title}
+                  className='h-full w-full object-cover group-hover:scale-105 group-hover:brightness-75 transition-all duration-500 ease-in-out'
+                />
+              </div>
+            </Link>
+          ) : (
             <div
               className={
                 (POST_TWO_COLS ? ' 2xl:w-full' : '') +
-                ' w-full md:w-5/12 overflow-hidden cursor-pointer select-none'
+                ' w-full md:w-5/12 overflow-hidden select-none'
               }>
               <LazyImage
                 priority={index === 0}
                 src={pageCoverThumbnail}
                 alt={post?.title}
-                className='h-full w-full object-cover group-hover:scale-105 group-hover:brightness-75 transition-all duration-500 ease-in-out' //宽高都调整为自适应,保证封面居中
+                className='h-full w-full object-cover'
               />
             </div>
-          </Link>
+          )
         )}
 
         {/* 文字区块 */}
@@ -73,20 +89,35 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
             )}
 
             {/* 标题和图标 */}
-            <Link
-              href={post?.href}
-              passHref
-              className={
-                ' group-hover:text-indigo-700 dark:hover:text-yellow-700 dark:group-hover:text-yellow-600 text-black dark:text-gray-100  line-clamp-2 replace cursor-pointer text-xl font-extrabold leading-tight'
-              }>
-              {siteConfig('POST_TITLE_ICON') && (
-                <NotionIcon
-                icon={post.pageIcon}
-                className="heo-icon w-6 h-6 mr-1 align-middle transform translate-y-[-8%]" // 专门为 Heo 主题的图标设置样式
-              />
-              )}
-              <span className='menu-link '>{post.title}</span>
-            </Link>
+            {postHref ? (
+              <Link
+                href={postHref}
+                passHref
+                className={
+                  ' group-hover:text-indigo-700 dark:hover:text-yellow-700 dark:group-hover:text-yellow-600 text-black dark:text-gray-100  line-clamp-2 replace cursor-pointer text-xl font-extrabold leading-tight'
+                }>
+                {siteConfig('POST_TITLE_ICON') && (
+                  <NotionIcon
+                    icon={post.pageIcon}
+                    className='heo-icon w-6 h-6 mr-1 align-middle transform translate-y-[-8%]'
+                  />
+                )}
+                <span className='menu-link '>{post.title}</span>
+              </Link>
+            ) : (
+              <div
+                className={
+                  ' text-black dark:text-gray-100 line-clamp-2 replace text-xl font-extrabold leading-tight'
+                }>
+                {siteConfig('POST_TITLE_ICON') && (
+                  <NotionIcon
+                    icon={post.pageIcon}
+                    className='heo-icon w-6 h-6 mr-1 align-middle transform translate-y-[-8%]'
+                  />
+                )}
+                <span className='menu-link '>{post.title}</span>
+              </div>
+            )}
           </header>
 
           {/* 摘要 */}

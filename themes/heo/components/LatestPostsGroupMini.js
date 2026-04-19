@@ -31,14 +31,9 @@ export default function LatestPostsGroupMini({ latestPosts, siteInfo }) {
         const headerImage = post?.pageCoverThumbnail
           ? post.pageCoverThumbnail
           : siteInfo?.pageCover
-
-        return (
-          <Link
-            key={post.id}
-            title={post.title}
-            href={post?.href}
-            passHref
-            className={'my-3 flex'}>
+        const postHref = post?.href
+        const postContent = (
+          <>
             <div className='w-20 h-14 overflow-hidden relative'>
               <LazyImage
                 src={`${headerImage}`}
@@ -56,6 +51,25 @@ export default function LatestPostsGroupMini({ latestPosts, siteInfo }) {
                 <div className='text-gray-400'>{post.lastEditedDay}</div>
               </div>
             </div>
+          </>
+        )
+
+        if (!postHref) {
+          return (
+            <div key={post.id} title={post.title} className='my-3 flex'>
+              {postContent}
+            </div>
+          )
+        }
+
+        return (
+          <Link
+            key={post.id}
+            title={post.title}
+            href={postHref}
+            passHref
+            className={'my-3 flex'}>
+            {postContent}
           </Link>
         )
       })}

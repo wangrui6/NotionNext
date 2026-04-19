@@ -73,16 +73,8 @@ export async function getStaticProps({ locale }) {
 
 export const getStaticPaths = async () => {
   return {
-    paths: [
-      { params: { index: [] } }, // 对应首页路径
-      { params: { index: ['membership'] } },
-      { params: { index: ['balance'] } },
-      { params: { index: ['user-profile'] } },
-      { params: { index: ['user-profile', 'security'] } }, // 嵌套路由，按结构传递
-      { params: { index: ['order'] } },
-      { params: { index: ['affiliate'] } }
-    ],
-    fallback: 'blocking' // 或者 true，阻塞式渲染
+    paths: [],
+    fallback: 'blocking'
   }
 }
 

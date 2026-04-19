@@ -54,12 +54,8 @@ export async function getStaticProps({ params: { category }, locale }) {
 }
 
 export async function getStaticPaths() {
-  const from = 'category-paths'
-  const { categoryOptions } = await getGlobalData({ from })
   return {
-    paths: Object.keys(categoryOptions).map(category => ({
-      params: { category: categoryOptions[category]?.name }
-    })),
-    fallback: true
+    paths: [],
+    fallback: 'blocking'
   }
 }

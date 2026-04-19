@@ -101,12 +101,17 @@ function MoreButton() {
  * 欢迎语
  */
 function GreetingsWords() {
-  const greetings = siteConfig('HEO_INFOCARD_GREETINGS', null, CONFIG)
-  const [greeting, setGreeting] = useState(greetings[0])
+  const greetings =
+    siteConfig('HEO_INFOCARD_GREETINGS', null, CONFIG) ||
+    siteConfig('INFOCARD_GREETINGS', null, CONFIG) ||
+    ['Hello!']
+  const greetingList =
+    Array.isArray(greetings) && greetings.length > 0 ? greetings : ['Hello!']
+  const [greeting, setGreeting] = useState(greetingList[0])
   // 每次点击，随机获取greetings中的一个
   const handleChangeGreeting = () => {
-    const randomIndex = Math.floor(Math.random() * greetings.length)
-    setGreeting(greetings[randomIndex])
+    const randomIndex = Math.floor(Math.random() * greetingList.length)
+    setGreeting(greetingList[randomIndex])
   }
 
   return (

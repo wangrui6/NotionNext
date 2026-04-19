@@ -1,7 +1,6 @@
 import BLOG from '@/blog.config'
 import { siteConfig } from '@/lib/config'
 import { getGlobalData, getPost } from '@/lib/db/getSiteData'
-import { checkSlugHasMorThanTwoSlash, processPostData } from '@/lib/utils/post'
 import { idToUuid } from 'notion-utils'
 import Slug from '..'
 
@@ -20,27 +19,9 @@ const PrefixSlug = props => {
  * @returns
  */
 export async function getStaticPaths() {
-  if (!BLOG.isProd) {
-    return {
-      paths: [],
-      fallback: true
-    }
-  }
-
-  const from = 'slug-paths'
-  const { allPages } = await getGlobalData({ from })
-  const paths = allPages
-    ?.filter(row => checkSlugHasMorThanTwoSlash(row))
-    .map(row => ({
-      params: {
-        prefix: row.slug.split('/')[0],
-        slug: row.slug.split('/')[1],
-        suffix: row.slug.split('/').slice(2)
-      }
-    }))
   return {
-    paths: paths,
-    fallback: true
+    paths: [],
+    fallback: 'blocking'
   }
 }
 
@@ -81,6 +62,7 @@ export async function getStaticProps({
     // 无法获取文章
     props.post = null
   } else {
+    const { processPostData } = await import('@/lib/utils/post')
     await processPostData(props, from)
   }
   return {

@@ -6,7 +6,6 @@ import { getGlobalData, getPost } from '@/lib/db/getSiteData'
 import { useGlobal } from '@/lib/global'
 import { getPageTableOfContents } from '@/lib/notion/getPageTableOfContents'
 import { getPasswordQuery } from '@/lib/password'
-import { checkSlugHasNoSlash, processPostData } from '@/lib/utils/post'
 import { DynamicLayout } from '@/themes/theme'
 import md5 from 'js-md5'
 import { useRouter } from 'next/router'
@@ -96,21 +95,9 @@ const Slug = props => {
 }
 
 export async function getStaticPaths() {
-  if (!BLOG.isProd) {
-    return {
-      paths: [],
-      fallback: true
-    }
-  }
-
-  const from = 'slug-paths'
-  const { allPages } = await getGlobalData({ from })
-  const paths = allPages
-    ?.filter(row => checkSlugHasNoSlash(row))
-    .map(row => ({ params: { prefix: row.slug } }))
   return {
-    paths: paths,
-    fallback: true
+    paths: [],
+    fallback: 'blocking'
   }
 }
 
@@ -144,6 +131,7 @@ export async function getStaticProps({ params: { prefix }, locale }) {
     // 无法获取文章
     props.post = null
   } else {
+    const { processPostData } = await import('@/lib/utils/post')
     await processPostData(props, from)
   }
   return {

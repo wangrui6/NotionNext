@@ -19,6 +19,10 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
   // 文章头图
   const headerImage = post?.pageCover ? post.pageCover : siteInfo?.pageCover
   const ANALYTICS_BUSUANZI_ENABLE = siteConfig('ANALYTICS_BUSUANZI_ENABLE')
+  const archiveMonth = formatDateFmt(
+    post?.publishDate || post?.publishDay,
+    'yyyy-MM'
+  )
   return (
     <div
       id='post-bg'
@@ -111,13 +115,20 @@ export default function PostHeader({ post, siteInfo, isDarkMode }) {
               </div>
               {post?.type !== 'Page' && (
                 <>
-                  <Link
-                    href={`/archive#${formatDateFmt(post?.publishDate, 'yyyy-MM')}`}
-                    passHref
-                    className='pl-1 mr-2 cursor-pointer hover:underline'>
-                    <i className='fa-regular fa-calendar'></i>{' '}
-                    {post?.publishDay}
-                  </Link>
+                  {archiveMonth ? (
+                    <Link
+                      href={`/archive#${archiveMonth}`}
+                      passHref
+                      className='pl-1 mr-2 cursor-pointer hover:underline'>
+                      <i className='fa-regular fa-calendar'></i>{' '}
+                      {post?.publishDay}
+                    </Link>
+                  ) : (
+                    <div className='pl-1 mr-2'>
+                      <i className='fa-regular fa-calendar'></i>{' '}
+                      {post?.publishDay || post?.lastEditedDay}
+                    </div>
+                  )}
                 </>
               )}
 

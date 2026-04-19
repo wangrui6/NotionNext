@@ -53,8 +53,8 @@ export async function getStaticProps({ params: { keyword }, locale }) {
 
 export async function getStaticPaths() {
   return {
-    paths: [{ params: { keyword: 'NotionNext' } }],
-    fallback: true
+    paths: [],
+    fallback: 'blocking'
   }
 }
 

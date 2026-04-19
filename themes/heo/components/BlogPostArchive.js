@@ -33,6 +33,7 @@ const BlogPostArchive = ({ posts = [], archiveTitle, siteInfo }) => {
               siteConfig('HEO_POST_LIST_COVER', null, CONFIG) &&
               pageCoverThumbnail &&
               !showPreview
+            const postHref = post?.href
             return (
               <div
                 key={post.id}
@@ -42,12 +43,19 @@ const BlogPostArchive = ({ posts = [], archiveTitle, siteInfo }) => {
                 {/* 图片封面 */}
                 {showPageCover && (
                   <div>
-                    <Link href={post?.href} passHref legacyBehavior>
+                    {postHref ? (
+                      <Link href={postHref} passHref legacyBehavior>
+                        <LazyImage
+                          className={'rounded-xl bg-center bg-cover w-40 h-24'}
+                          src={pageCoverThumbnail}
+                        />
+                      </Link>
+                    ) : (
                       <LazyImage
                         className={'rounded-xl bg-center bg-cover w-40 h-24'}
                         src={pageCoverThumbnail}
                       />
-                    </Link>
+                    )}
                   </div>
                 )}
 
@@ -68,14 +76,23 @@ const BlogPostArchive = ({ posts = [], archiveTitle, siteInfo }) => {
                     )}
 
                     {/* 标题 */}
-                    <Link
-                      href={post?.href}
-                      passHref
-                      className={
-                        ' group-hover:text-indigo-700 group-hover:dark:text-indigo-400 text-black dark:text-gray-100 dark:group-hover:text-yellow-600 line-clamp-2 replace cursor-pointer text-xl font-extrabold leading-tight'
-                      }>
-                      <span className='menu-link '>{post.title}</span>
-                    </Link>
+                    {postHref ? (
+                      <Link
+                        href={postHref}
+                        passHref
+                        className={
+                          ' group-hover:text-indigo-700 group-hover:dark:text-indigo-400 text-black dark:text-gray-100 dark:group-hover:text-yellow-600 line-clamp-2 replace cursor-pointer text-xl font-extrabold leading-tight'
+                        }>
+                        <span className='menu-link '>{post.title}</span>
+                      </Link>
+                    ) : (
+                      <div
+                        className={
+                          ' group-hover:text-indigo-700 group-hover:dark:text-indigo-400 text-black dark:text-gray-100 dark:group-hover:text-yellow-600 line-clamp-2 replace text-xl font-extrabold leading-tight'
+                        }>
+                        <span className='menu-link '>{post.title}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* 摘要 */}

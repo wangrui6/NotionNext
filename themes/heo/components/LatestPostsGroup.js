@@ -20,14 +20,9 @@ const LatestPostsGroup = ({ latestPosts, siteInfo }) => {
         const headerImage = post?.pageCoverThumbnail
           ? post.pageCoverThumbnail
           : siteInfo?.pageCover
-
-        return (
-          <Link
-            key={post.id}
-            passHref
-            title={post.title}
-            href={post?.href}
-            className={'my-3 flex flex-col w-full'}>
+        const postHref = post?.href
+        const postContent = (
+          <>
             <div className='w-full h-24 md:h-60 overflow-hidden relative rounded-lg mb-2'>
               <LazyImage
                 src={`${headerImage}`}
@@ -42,6 +37,28 @@ const LatestPostsGroup = ({ latestPosts, siteInfo }) => {
               }>
               <div className='line-clamp-2 menu-link'>{post.title}</div>
             </div>
+          </>
+        )
+
+        if (!postHref) {
+          return (
+            <div
+              key={post.id}
+              title={post.title}
+              className='my-3 flex flex-col w-full'>
+              {postContent}
+            </div>
+          )
+        }
+
+        return (
+          <Link
+            key={post.id}
+            passHref
+            title={post.title}
+            href={postHref}
+            className={'my-3 flex flex-col w-full'}>
+            {postContent}
           </Link>
         )
       })}
