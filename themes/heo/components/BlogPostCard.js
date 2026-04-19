@@ -8,16 +8,14 @@ import TagItemMini from './TagItemMini'
 const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
   const showPreview =
     siteConfig('HEO_POST_LIST_PREVIEW', null, CONFIG) && post.blockMap
-  if (
-    post &&
-    !post.pageCoverThumbnail &&
+  const pageCoverThumbnail =
+    !post?.pageCoverThumbnail &&
     siteConfig('HEO_POST_LIST_COVER_DEFAULT', null, CONFIG)
-  ) {
-    post.pageCoverThumbnail = siteInfo?.pageCover
-  }
+      ? siteInfo?.pageCover
+      : post?.pageCoverThumbnail
   const showPageCover =
     siteConfig('HEO_POST_LIST_COVER', null, CONFIG) &&
-    post?.pageCoverThumbnail &&
+    pageCoverThumbnail &&
     !showPreview
 
   const POST_TWO_COLS = siteConfig('HEO_HOME_POST_TWO_COLS', true, CONFIG)
@@ -46,7 +44,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
               }>
               <LazyImage
                 priority={index === 0}
-                src={post?.pageCoverThumbnail}
+                src={pageCoverThumbnail}
                 alt={post?.title}
                 className='h-full w-full object-cover group-hover:scale-105 group-hover:brightness-75 transition-all duration-500 ease-in-out' //宽高都调整为自适应,保证封面居中
               />
