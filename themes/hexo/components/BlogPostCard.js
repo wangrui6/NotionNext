@@ -18,6 +18,7 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
     siteConfig('HEXO_POST_LIST_COVER', null, CONFIG) &&
     post?.pageCoverThumbnail &&
     !showPreview
+  const postHref = post?.href
   //   const delay = (index % 2) * 200
 
   return (
@@ -45,16 +46,23 @@ const BlogPostCard = ({ index, post, showSummary, siteInfo }) => {
         {/* 图片封面 */}
         {showPageCover && (
           <div className='md:w-5/12 overflow-hidden'>
-            <Link href={post?.href}>
-              <>
+            {postHref ? (
+              <Link href={postHref}>
                 <LazyImage
                   priority={index === 1}
                   alt={post?.title}
                   src={post?.pageCoverThumbnail}
                   className='h-56 w-full object-cover object-center group-hover:scale-110 duration-500'
                 />
-              </>
-            </Link>
+              </Link>
+            ) : (
+              <LazyImage
+                priority={index === 1}
+                alt={post?.title}
+                src={post?.pageCoverThumbnail}
+                className='h-56 w-full object-cover object-center group-hover:scale-110 duration-500'
+              />
+            )}
           </div>
         )}
       </div>

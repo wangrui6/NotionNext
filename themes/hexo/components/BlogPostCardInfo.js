@@ -17,6 +17,7 @@ export const BlogPostCardInfo = ({
   showPageCover,
   showSummary
 }) => {
+  const postHref = post?.href
   return (
     <article
       className={`flex flex-col justify-between lg:p-6 p-4  ${showPageCover && !showPreview ? 'md:w-7/12 w-full md:max-h-60' : 'w-full'}`}>
@@ -24,17 +25,29 @@ export const BlogPostCardInfo = ({
         <header>
           <h2>
             {/* 标题 */}
-            <Link
-              href={post?.href}
-              passHref
-              className={`line-clamp-2 replace cursor-pointer text-2xl ${
-                showPreview ? 'text-center' : ''
-              } leading-tight font-normal text-gray-600 dark:text-gray-100 hover:text-indigo-700 dark:hover:text-indigo-400`}>
-              {siteConfig('POST_TITLE_ICON') && (
-                <NotionIcon icon={post.pageIcon} />
-              )}
-              <span className='menu-link '>{post.title}</span>
-            </Link>
+            {postHref ? (
+              <Link
+                href={postHref}
+                passHref
+                className={`line-clamp-2 replace cursor-pointer text-2xl ${
+                  showPreview ? 'text-center' : ''
+                } leading-tight font-normal text-gray-600 dark:text-gray-100 hover:text-indigo-700 dark:hover:text-indigo-400`}>
+                {siteConfig('POST_TITLE_ICON') && (
+                  <NotionIcon icon={post.pageIcon} />
+                )}
+                <span className='menu-link '>{post.title}</span>
+              </Link>
+            ) : (
+              <span
+                className={`line-clamp-2 replace text-2xl ${
+                  showPreview ? 'text-center' : ''
+                } leading-tight font-normal text-gray-600 dark:text-gray-100`}>
+                {siteConfig('POST_TITLE_ICON') && (
+                  <NotionIcon icon={post.pageIcon} />
+                )}
+                <span className='menu-link '>{post.title}</span>
+              </span>
+            )}
           </h2>
 
           {/* 分类 */}

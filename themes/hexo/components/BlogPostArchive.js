@@ -20,6 +20,7 @@ const BlogPostArchive = ({ posts = [], archiveTitle }) => {
         </div>
         <ul>
           {posts?.map(post => {
+            const postHref = post?.href
             return (
               <li
                 key={post.id}
@@ -27,12 +28,18 @@ const BlogPostArchive = ({ posts = [], archiveTitle }) => {
                 <div id={post?.publishDay}>
                   <span className='text-gray-400'>{post.date?.start_date}</span>{' '}
                   &nbsp;
-                  <Link
-                    href={post?.href}
-                    passHref
-                    className='dark:text-gray-400  dark:hover:text-indigo-300 overflow-x-hidden hover:underline cursor-pointer text-gray-600'>
-                    {post.title}
-                  </Link>
+                  {postHref ? (
+                    <Link
+                      href={postHref}
+                      passHref
+                      className='dark:text-gray-400  dark:hover:text-indigo-300 overflow-x-hidden hover:underline cursor-pointer text-gray-600'>
+                      {post.title}
+                    </Link>
+                  ) : (
+                    <span className='dark:text-gray-400 overflow-x-hidden text-gray-600'>
+                      {post.title}
+                    </span>
+                  )}
                 </div>
               </li>
             )
