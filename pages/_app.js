@@ -10,7 +10,7 @@ import useAdjustStyle from '@/hooks/useAdjustStyle'
 import { GlobalContextProvider } from '@/lib/global'
 import { getBaseLayoutByTheme } from '@/themes/theme'
 import { useRouter } from 'next/router'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getQueryParam } from '../lib/utils'
 
 // 各种扩展插件 这个要阻塞引入
@@ -28,6 +28,7 @@ import { zhCN } from '@clerk/localizations'
 const MyApp = ({ Component, pageProps }) => {
   // 一些可能出现 bug 的样式，可以统一放入该钩子进行调整
   useAdjustStyle()
+  const [clerkMounted, setClerkMounted] = useState(false)
 
   const route = useRouter()
   const theme = useMemo(() => {
@@ -48,6 +49,11 @@ const MyApp = ({ Component, pageProps }) => {
   )
 
   const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+
+  useEffect(() => {
+    setClerkMounted(true)
+  }, [])
+
   const content = (
     <GlobalContextProvider {...pageProps}>
       <GLayout {...pageProps}>
@@ -59,7 +65,7 @@ const MyApp = ({ Component, pageProps }) => {
   )
   return (
     <>
-      {enableClerk ? (
+      {enableClerk && clerkMounted ? (
         <ClerkProvider localization={zhCN}>{content}</ClerkProvider>
       ) : (
         content
