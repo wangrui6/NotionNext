@@ -36,8 +36,9 @@ const locales = (function () {
 // eslint-disable-next-line no-unused-vars
 const preBuild = (function () {
   if (
-    !process.env.npm_lifecycle_event === 'export' &&
-    !process.env.npm_lifecycle_event === 'build'
+    !['build', 'build-all-in-dev', 'export'].includes(
+      process.env.npm_lifecycle_event
+    )
   ) {
     return
   }
@@ -215,6 +216,8 @@ const nextConfig = {
     return config
   },
   experimental: {
+    // Avoid bursts of Notion requests from one static-generation worker per CPU.
+    cpus: 2,
     scrollRestoration: true
   },
   exportPathMap: async function (

@@ -9,6 +9,8 @@ import 'react-notion-x/src/styles.css' // 原版的react-notion-x
 import useAdjustStyle from '@/hooks/useAdjustStyle'
 import { GlobalContextProvider } from '@/lib/global'
 import { getBaseLayoutByTheme } from '@/themes/theme'
+import { zhCN } from '@clerk/localizations'
+import { ClerkProvider } from '@clerk/clerk-react'
 import { useRouter } from 'next/router'
 import { useCallback, useMemo } from 'react'
 import { getQueryParam } from '../lib/utils'
@@ -17,12 +19,6 @@ import { getQueryParam } from '../lib/utils'
 import BLOG from '@/blog.config'
 import ExternalPlugins from '@/components/ExternalPlugins'
 import SEO from '@/components/SEO'
-import { zhCN } from '@clerk/localizations'
-import dynamic from 'next/dynamic'
-// import { ClerkProvider } from '@clerk/nextjs'
-const ClerkProvider = dynamic(() =>
-  import('@clerk/nextjs').then(m => m.ClerkProvider)
-)
 
 /**
  * App挂载DOM 入口文件
@@ -51,7 +47,9 @@ const MyApp = ({ Component, pageProps }) => {
     [theme]
   )
 
-  const enableClerk = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+  const clerkPublishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY
+  const enableClerk = Boolean(clerkPublishableKey)
+
   const content = (
     <GlobalContextProvider {...pageProps}>
       <GLayout {...pageProps}>
@@ -64,7 +62,11 @@ const MyApp = ({ Component, pageProps }) => {
   return (
     <>
       {enableClerk ? (
-        <ClerkProvider localization={zhCN}>{content}</ClerkProvider>
+        <ClerkProvider
+          localization={zhCN}
+          publishableKey={clerkPublishableKey}>
+          {content}
+        </ClerkProvider>
       ) : (
         content
       )}

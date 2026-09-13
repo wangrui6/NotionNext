@@ -55,15 +55,23 @@ export async function getStaticProps(req) {
     }
   }
 
-  // 生成robotTxt
-  generateRobotsTxt(props)
-  // 生成Feed订阅
-  generateRss(props)
-  // 生成
-  generateSitemapXml(props)
-  if (siteConfig('UUID_REDIRECT', false, props?.NOTION_CONFIG)) {
-    // 生成重定向 JSON
-    generateRedirectJson(props)
+  // Vercel functions cannot update public files. Generate them at build time;
+  // the existing sitemap route handles requests after deployment.
+  const lifecycle = process.env.npm_lifecycle_event
+  if (
+    lifecycle === 'build' ||
+    lifecycle === 'build-all-in-dev' ||
+    lifecycle === 'export'
+  ) {
+    await generateRobotsTxt(props)
+    await generateRss(props)
+    // Normal deployments use pages/sitemap.xml.js; only static exports need a file.
+    if (lifecycle === 'export') {
+      await generateSitemapXml(props)
+    }
+    if (siteConfig('UUID_REDIRECT', false, props?.NOTION_CONFIG)) {
+      await generateRedirectJson(props)
+    }
   }
 
   // 生成全文索引 - 仅在 yarn build 时执行 && process.env.npm_lifecycle_event === 'build'
