@@ -1,4 +1,5 @@
 import { siteConfig } from '@/lib/config'
+import { getRenderableRecordMap } from '@/lib/notion/getRenderableRecordMap.mjs'
 import { compressImage, mapImgUrl } from '@/lib/notion/mapImage'
 import { isBrowser, loadExternalResource } from '@/lib/utils'
 import mediumZoom from '@fisch0920/medium-zoom'
@@ -121,7 +122,7 @@ const NotionPage = ({ post, className }) => {
       id='notion-article'
       className={`mx-auto overflow-hidden ${className || ''}`}>
       <NotionRenderer
-        recordMap={post?.blockMap}
+        recordMap={getRenderableRecordMap(post?.blockMap)}
         mapPageUrl={mapPageUrl}
         mapImageUrl={mapImgUrl}
         components={{
